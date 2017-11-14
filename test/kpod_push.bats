@@ -76,3 +76,15 @@ function teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
 }
+
+@test "kpod push without transport" {
+    run ${KPOD_BINARY} $KPOD_OPTIONS pull "$IMAGE"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    run ${KPOD_BINARY} $KPOD_OPTIONS push "$IMAGE" localhost:5000/my-alpine
+    echo "$output"
+    [ "$status" -eq 1 ]
+    run ${KPOD_BINARY} $KPOD_OPTIONS rmi "$IMAGE"
+    echo "$output"
+    [ "$status" -eq 0 ]
+}
